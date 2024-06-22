@@ -2,6 +2,7 @@ package com.eteration.simplebanking.services.impl;
 
 
 import com.eteration.simplebanking.common.util.mapper.AccountMapper;
+import com.eteration.simplebanking.common.util.messages.Messages;
 import com.eteration.simplebanking.common.util.result.DataResult;
 import com.eteration.simplebanking.common.util.result.Result;
 import com.eteration.simplebanking.common.util.result.SuccessDataResult;
@@ -48,7 +49,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
         CreateAccountResponse createAccountResponse = accountMapper.bankAccountToCreateAccountResponse(account);
 
-        return new SuccessDataResult<>(createAccountResponse, "Account created successfully");
+        return new SuccessDataResult<>(createAccountResponse, Messages.ACCOUNT_CREATED_SUCCESSFULLY);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         creditResponse.setApprovalCode(transaction.getApprovalCode());
         creditResponse.setTransactionDate(LocalDateTime.now());
 
-        return new SuccessDataResult<>(creditResponse, "Credit created successfully");
+        return new SuccessDataResult<>(creditResponse, Messages.CREDIT_SUCCESSFULLY);
     }
 
 
@@ -87,7 +88,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         debitResponse.setApprovalCode(transaction.getApprovalCode());
         debitResponse.setTransactionDate(LocalDateTime.now());
 
-        return new SuccessDataResult<>(debitResponse, "Debit created successfully");
+        return new SuccessDataResult<>(debitResponse, Messages.DEBIT_SUCCESSFULLY);
     }
 
     @Override
@@ -110,7 +111,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         paymentResponse.setApprovalCode(transaction.getApprovalCode());
         paymentResponse.setTransactionDate(LocalDateTime.now());
 
-        return new SuccessDataResult<>(paymentResponse, "Payment created successfully");
+        return new SuccessDataResult<>(paymentResponse, Messages.PAYMENT_SUCCESSFULLY);
     }
 
     @Override
@@ -119,7 +120,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
         AccountDto accountDto = accountMapper.accountDtoToBankAccount(bankAccount);
 
-        return new SuccessDataResult<>(accountDto, "Account found");
+        return new SuccessDataResult<>(accountDto, Messages.ACCOUNT_FOUND);
     }
 
     @Override
@@ -127,19 +128,19 @@ public class BankAccountServiceImpl implements BankAccountService {
         BankAccount bankAccount = getBankAccount(accountNumber);
 
         bankAccountRepository.delete(bankAccount);
-        return new SuccessResult("Account deleted successfully: " + accountNumber);
+        return new SuccessResult(String.format("%s: %s", Messages.ACCOUNT_DELETED_SUCCESSFULLY, accountNumber));
     }
 
     public BankAccount getBankAccount(String accountNumber) {
         return bankAccountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new BankAccountNotFoundException("Bank account not found: " + accountNumber));
+                .orElseThrow(() -> new BankAccountNotFoundException(String.format("%s: %s", Messages.BANK_ACCOUNT_NOT_FOUND, accountNumber)));
     }
 
     private void checkSufficientBalance(BankAccount bankAccount, double requestAmount) {
         double currentBalance = bankAccount.getBalance();
 
         if (currentBalance < requestAmount) {
-            throw new InsufficientBalanceException("Insufficient balance. Current balance: " + currentBalance);
+            throw new InsufficientBalanceException(Messages.INSUFFICIENT_BALANCE + currentBalance);
         }
     }
 

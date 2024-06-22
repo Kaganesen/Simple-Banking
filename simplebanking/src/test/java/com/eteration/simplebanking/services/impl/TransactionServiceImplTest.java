@@ -3,7 +3,6 @@ package com.eteration.simplebanking.services.impl;
 import com.eteration.simplebanking.helpers.TransactionServiceHelper;
 import com.eteration.simplebanking.model.entity.*;
 import com.eteration.simplebanking.model.enums.TransactionType;
-import com.eteration.simplebanking.services.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,11 +16,12 @@ import static org.mockito.Mockito.*;
 
 class TransactionServiceImplTest {
 
+    @InjectMocks
+    private TransactionServiceImpl transactionServiceImpl;
+
     @Mock
     private TransactionServiceHelper transactionServiceHelper;
 
-    @InjectMocks
-    private TransactionServiceImpl transactionServiceImpl;
 
     @BeforeEach
     void setUp() {
@@ -30,19 +30,15 @@ class TransactionServiceImplTest {
 
     @Test
     void deposit() {
-        // Mock veri hazırlığı
         BankAccount bankAccount = new BankAccount();
         double amount = 1000.0;
         DepositTransaction expectedTransaction = new DepositTransaction(amount);
 
-        // Mock davranışı
         when(transactionServiceHelper.processTransaction(any(BankAccount.class), eq(amount), eq(TransactionType.DEPOSIT)))
                 .thenReturn(expectedTransaction);
 
-        // Metod çağrısı
         Transaction result = transactionServiceImpl.deposit(bankAccount, amount);
 
-        // Doğrulamalar
         assertNotNull(result);
         assertEquals(expectedTransaction, result);
         verify(transactionServiceHelper, times(1))

@@ -1,5 +1,6 @@
 package com.eteration.simplebanking.common.util.factory;
 
+import com.eteration.simplebanking.common.util.messages.Messages;
 import com.eteration.simplebanking.model.entity.BillPaymentTransaction;
 import com.eteration.simplebanking.model.entity.DepositTransaction;
 import com.eteration.simplebanking.model.entity.Transaction;
@@ -22,7 +23,7 @@ public class TransactionFactory {
                 return new BillPaymentTransaction(amount);
 
             default:
-                throw new IllegalArgumentException("Unsupported transaction type: " + type);
+                throw new IllegalArgumentException(String.format("%s %s", Messages.UNSUPPORTED_TRANSACTION_TYPE, type));
         }
 
     }
