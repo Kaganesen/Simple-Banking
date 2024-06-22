@@ -3,9 +3,9 @@ package com.eteration.simplebanking.controller;
 import com.eteration.simplebanking.common.util.result.DataResult;
 import com.eteration.simplebanking.common.util.result.Result;
 import com.eteration.simplebanking.model.dto.request.CreateAccountRequest;
-import com.eteration.simplebanking.model.dto.request.CreateCreditRequest;
-import com.eteration.simplebanking.model.dto.request.CreateDebitRequest;
-import com.eteration.simplebanking.model.dto.request.CreatePaymentRequest;
+import com.eteration.simplebanking.model.dto.request.CreditRequest;
+import com.eteration.simplebanking.model.dto.request.DebitRequest;
+import com.eteration.simplebanking.model.dto.request.PaymentRequest;
 import com.eteration.simplebanking.model.dto.response.*;
 import com.eteration.simplebanking.services.BankAccountService;
 import lombok.RequiredArgsConstructor;
@@ -29,19 +29,19 @@ public class BankAccountController {
     }
 
     @PostMapping("/credit")
-    public DataResult<CreateCreditResponse> credit(@RequestBody @Valid CreateCreditRequest createCreditRequest) {
-        return bankAccountService.credit(createCreditRequest);
+    public DataResult<CreditResponse> credit(@RequestBody @Valid CreditRequest creditRequest) {
+        return bankAccountService.credit(creditRequest);
     }
 
 
     @PostMapping("/debit")
-    public DataResult<CreateDebitResponse> debit(@RequestBody @Valid CreateDebitRequest createDebitRequest) {
-        return bankAccountService.debit(createDebitRequest);
+    public DataResult<DebitResponse> debit(@RequestBody @Valid DebitRequest debitRequest) {
+        return bankAccountService.debit(debitRequest);
     }
 
     @PostMapping("/payment")
-    public DataResult<CreatePaymentResponse> payment(@RequestBody @Valid CreatePaymentRequest createPaymentRequest) {
-        return bankAccountService.payment(createPaymentRequest);
+    public DataResult<PaymentResponse> payment(@RequestBody @Valid PaymentRequest paymentRequest) {
+        return bankAccountService.payment(paymentRequest);
     }
 
     @GetMapping("/account/{accountNumber}")

@@ -5,19 +5,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateWithdrawalResponse {
+public class CreditResponse {
 
-    private Long transactionId;
+    private String owner;
 
     private String accountNumber;
 
-    private double amount;
+    private double balance;
 
-    private double newBalance;
+    private String approvalCode;
 
-    private String message;
+    private LocalDateTime transactionDate;
+
 }

@@ -9,9 +9,9 @@ import com.eteration.simplebanking.common.util.result.SuccessResult;
 import com.eteration.simplebanking.exception.BankAccountNotFoundException;
 import com.eteration.simplebanking.exception.InsufficientBalanceException;
 import com.eteration.simplebanking.model.dto.request.CreateAccountRequest;
-import com.eteration.simplebanking.model.dto.request.CreateCreditRequest;
-import com.eteration.simplebanking.model.dto.request.CreateDebitRequest;
-import com.eteration.simplebanking.model.dto.request.CreatePaymentRequest;
+import com.eteration.simplebanking.model.dto.request.CreditRequest;
+import com.eteration.simplebanking.model.dto.request.DebitRequest;
+import com.eteration.simplebanking.model.dto.request.PaymentRequest;
 import com.eteration.simplebanking.model.dto.response.*;
 import com.eteration.simplebanking.model.entity.BankAccount;
 import com.eteration.simplebanking.model.entity.Transaction;
@@ -53,26 +53,26 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     @Transactional
-    public DataResult<CreateCreditResponse> credit(CreateCreditRequest createCreditRequest) {
-        BankAccount bankAccount = getBankAccount(createCreditRequest.getAccountNumber());
-        bankAccount.setBalance(bankAccount.getBalance() + createCreditRequest.getAmount());
+    public DataResult<CreditResponse> credit(CreditRequest creditRequest) {
+        BankAccount bankAccount = getBankAccount(creditRequest.getAccountNumber());
+        bankAccount.setBalance(bankAccount.getBalance() + creditRequest.getAmount());
         bankAccountRepository.save(bankAccount);
 
-        Transaction transaction = transactionService.deposit(bankAccount, createCreditRequest.getAmount());
+        Transaction transaction = transactionService.deposit(bankAccount, creditRequest.getAmount());
 
-        CreateCreditResponse createCreditResponse = accountMapper.createBankAccountToCreateCreditResponse(bankAccount);
-        createCreditResponse.setApprovalCode(transaction.getApprovalCode());
-        createCreditResponse.setTransactionDate(LocalDateTime.now());
+        CreditResponse creditResponse = accountMapper.createBankAccountToCreateCreditResponse(bankAccount);
+        creditResponse.setApprovalCode(transaction.getApprovalCode());
+        creditResponse.setTransactionDate(LocalDateTime.now());
 
-        return new SuccessDataResult<>(createCreditResponse, "Credit created successfully");
+        return new SuccessDataResult<>(creditResponse, "Credit created successfully");
     }
 
 
     @Override
     @Transactional
-    public DataResult<CreateDebitResponse> debit(CreateDebitRequest createDebitRequest) {
-        BankAccount bankAccount = getBankAccount(createDebitRequest.getAccountNumber());
-        double requestAmount = createDebitRequest.getAmount();
+    public DataResult<DebitResponse> debit(DebitRequest debitRequest) {
+        BankAccount bankAccount = getBankAccount(debitRequest.getAccountNumber());
+        double requestAmount = debitRequest.getAmount();
         double currentBalance = bankAccount.getBalance();
 
         checkSufficientBalance(bankAccount, requestAmount);
@@ -81,20 +81,20 @@ public class BankAccountServiceImpl implements BankAccountService {
         bankAccount.setBalance(updatedBalance);
         bankAccountRepository.save(bankAccount);
 
-        Transaction transaction = transactionService.withdraw(bankAccount, createDebitRequest.getAmount());
+        Transaction transaction = transactionService.withdraw(bankAccount, debitRequest.getAmount());
 
-        CreateDebitResponse createDebitResponse = accountMapper.createBankAccountToCreateDebitResponse(bankAccount);
-        createDebitResponse.setApprovalCode(transaction.getApprovalCode());
-        createDebitResponse.setTransactionDate(LocalDateTime.now());
+        DebitResponse debitResponse = accountMapper.createBankAccountToCreateDebitResponse(bankAccount);
+        debitResponse.setApprovalCode(transaction.getApprovalCode());
+        debitResponse.setTransactionDate(LocalDateTime.now());
 
-        return new SuccessDataResult<>(createDebitResponse, "Debit created successfully");
+        return new SuccessDataResult<>(debitResponse, "Debit created successfully");
     }
 
     @Override
     @Transactional
-    public DataResult<CreatePaymentResponse> payment(CreatePaymentRequest createPaymentRequest) {
-        BankAccount bankAccount = getBankAccount(createPaymentRequest.getAccountNumber());
-        double requestAmount = createPaymentRequest.getAmount();
+    public DataResult<PaymentResponse> payment(PaymentRequest paymentRequest) {
+        BankAccount bankAccount = getBankAccount(paymentRequest.getAccountNumber());
+        double requestAmount = paymentRequest.getAmount();
         double currentBalance = bankAccount.getBalance();
 
         checkSufficientBalance(bankAccount, requestAmount);
@@ -104,13 +104,13 @@ public class BankAccountServiceImpl implements BankAccountService {
         bankAccount.setBalance(updatedBalance);
         bankAccountRepository.save(bankAccount);
 
-        Transaction transaction = transactionService.payment(bankAccount, createPaymentRequest.getAmount());
+        Transaction transaction = transactionService.payment(bankAccount, paymentRequest.getAmount());
 
-        CreatePaymentResponse createPaymentResponse = accountMapper.createBankAccountToCreatePaymentResponse(bankAccount);
-        createPaymentResponse.setApprovalCode(transaction.getApprovalCode());
-        createPaymentResponse.setTransactionDate(LocalDateTime.now());
+        PaymentResponse paymentResponse = accountMapper.createBankAccountToCreatePaymentResponse(bankAccount);
+        paymentResponse.setApprovalCode(transaction.getApprovalCode());
+        paymentResponse.setTransactionDate(LocalDateTime.now());
 
-        return new SuccessDataResult<>(createPaymentResponse, "Payment created successfully");
+        return new SuccessDataResult<>(paymentResponse, "Payment created successfully");
     }
 
     @Override

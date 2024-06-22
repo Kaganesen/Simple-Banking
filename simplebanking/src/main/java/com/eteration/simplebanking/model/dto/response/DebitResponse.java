@@ -1,6 +1,5 @@
 package com.eteration.simplebanking.model.dto.response;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,9 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePaymentResponse {
+public class DebitResponse {
+
+    private String owner;
 
     private String accountNumber;
 
@@ -21,4 +22,5 @@ public class CreatePaymentResponse {
     private String approvalCode;
 
     private LocalDateTime transactionDate;
+
 }

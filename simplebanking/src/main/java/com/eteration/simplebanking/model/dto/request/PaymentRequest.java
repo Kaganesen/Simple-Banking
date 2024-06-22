@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePaymentRequest {
+public class PaymentRequest {
 
     private String accountNumber;
 

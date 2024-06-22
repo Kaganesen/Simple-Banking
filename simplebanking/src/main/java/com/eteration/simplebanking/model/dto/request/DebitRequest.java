@@ -1,4 +1,4 @@
-package com.eteration.simplebanking.model.dto.response;
+package com.eteration.simplebanking.model.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,15 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateDepositResponse {
-
-    private Long transactionId;
+public class DebitRequest {
 
     private String accountNumber;
 
     private double amount;
-
-    private double newBalance;
-
-    private String message;
 }

@@ -36,14 +36,13 @@ class BankAccountControllerTest {
         MockitoAnnotations.openMocks(this);
 
         createAccountRequest = new CreateAccountRequest();
-        createAccountRequest.setAccountNumber("4444");
         createAccountRequest.setOwner("Kagan Esen");
 
         createAccountResponse = new CreateAccountResponse();
         createAccountResponse.setAccountNumber("4444");
         createAccountRequest.setOwner("Kagan Esen");
 
-        serviceResponse = new SuccessDataResult<>(createAccountResponse);
+        serviceResponse = new SuccessDataResult<>(createAccountResponse, "Account created successfully");
 
 //        when(bankAccountService.createAccount(any(CreateAccountRequest.class))).thenReturn(serviceResponse);
     }

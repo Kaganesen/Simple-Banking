@@ -20,11 +20,11 @@ public abstract class AccountMapper {
 
     public abstract CreateAccountResponse bankAccountToCreateAccountResponse(BankAccount account);
 
-    public abstract CreateCreditResponse createBankAccountToCreateCreditResponse(BankAccount bankAccount);
+    public abstract CreditResponse createBankAccountToCreateCreditResponse(BankAccount bankAccount);
 
-    public abstract CreateDebitResponse createBankAccountToCreateDebitResponse(BankAccount bankAccount);
+    public abstract DebitResponse createBankAccountToCreateDebitResponse(BankAccount bankAccount);
 
-    public abstract CreatePaymentResponse createBankAccountToCreatePaymentResponse(BankAccount bankAccount);
+    public abstract PaymentResponse createBankAccountToCreatePaymentResponse(BankAccount bankAccount);
 
     public abstract AccountDto accountDtoToBankAccount(BankAccount bankAccount);
 }
