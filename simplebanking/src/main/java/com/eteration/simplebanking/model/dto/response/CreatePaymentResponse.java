@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,4 +19,6 @@ public class CreatePaymentResponse {
     private double balance;
 
     private String approvalCode;
+
+    private LocalDateTime transactionDate;
 }

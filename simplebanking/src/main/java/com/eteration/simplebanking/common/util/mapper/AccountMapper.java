@@ -13,9 +13,8 @@ import org.mapstruct.Mapping;
 public abstract class AccountMapper {
 
 
-    public  BankAccount createAccountRequestToBankAccount(CreateAccountRequest createAccountRequest){
+    public BankAccount createAccountRequestToBankAccount(CreateAccountRequest createAccountRequest){
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setAccountNumber(createAccountRequest.getAccountNumber());
         bankAccount.setOwner(createAccountRequest.getOwner());
         return bankAccount;
     }

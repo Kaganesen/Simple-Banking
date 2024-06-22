@@ -23,6 +23,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +40,10 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Transactional
     public DataResult<CreateAccountResponse> createAccount(CreateAccountRequest createAccountRequest) {
+        String accountNumber = generateUniqueAccountNumber();
         BankAccount account = accountMapper.createAccountRequestToBankAccount(createAccountRequest);
         account.setCreateDate(LocalDateTime.now());
+        account.setAccountNumber(accountNumber);
         bankAccountRepository.save(account);
 
         CreateAccountResponse createAccountResponse = accountMapper.bankAccountToCreateAccountResponse(account);
@@ -57,6 +62,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
         CreateCreditResponse createCreditResponse = accountMapper.createBankAccountToCreateCreditResponse(bankAccount);
         createCreditResponse.setApprovalCode(transaction.getApprovalCode());
+        createCreditResponse.setTransactionDate(LocalDateTime.now());
 
         return new SuccessDataResult<>(createCreditResponse, "Credit created successfully");
     }
@@ -75,10 +81,11 @@ public class BankAccountServiceImpl implements BankAccountService {
         bankAccount.setBalance(updatedBalance);
         bankAccountRepository.save(bankAccount);
 
-        Transaction transaction =  transactionService.withdraw(bankAccount, createDebitRequest.getAmount());
+        Transaction transaction = transactionService.withdraw(bankAccount, createDebitRequest.getAmount());
 
         CreateDebitResponse createDebitResponse = accountMapper.createBankAccountToCreateDebitResponse(bankAccount);
         createDebitResponse.setApprovalCode(transaction.getApprovalCode());
+        createDebitResponse.setTransactionDate(LocalDateTime.now());
 
         return new SuccessDataResult<>(createDebitResponse, "Debit created successfully");
     }
@@ -101,6 +108,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
         CreatePaymentResponse createPaymentResponse = accountMapper.createBankAccountToCreatePaymentResponse(bankAccount);
         createPaymentResponse.setApprovalCode(transaction.getApprovalCode());
+        createPaymentResponse.setTransactionDate(LocalDateTime.now());
 
         return new SuccessDataResult<>(createPaymentResponse, "Payment created successfully");
     }
@@ -133,6 +141,20 @@ public class BankAccountServiceImpl implements BankAccountService {
         if (currentBalance < requestAmount) {
             throw new InsufficientBalanceException("Insufficient balance. Current balance: " + currentBalance);
         }
+    }
+
+    private String generateUniqueAccountNumber() {
+        String accountNumber;
+        do {
+            accountNumber = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))
+                    + String.format("%04d", new Random().nextInt(10000));
+        } while (accountNumberExists(accountNumber));
+        return accountNumber;
+    }
+
+    private boolean accountNumberExists(String accountNumber) {
+        Optional<BankAccount> existingAccount = bankAccountRepository.findByAccountNumber(accountNumber);
+        return existingAccount.isPresent();
     }
 
 }

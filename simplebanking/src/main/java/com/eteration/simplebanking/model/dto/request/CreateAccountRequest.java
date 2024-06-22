@@ -13,5 +13,4 @@ public class CreateAccountRequest {
 
     private String owner;
 
-    private String accountNumber;
 }

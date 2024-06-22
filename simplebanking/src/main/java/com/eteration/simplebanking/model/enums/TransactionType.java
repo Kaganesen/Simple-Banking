@@ -7,9 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum TransactionType {
 
-    DEPOSIT("Deposit"),
-    WITHDRAW("Withdraw"),
-    BILL_PAYMENT("Bill Payment");
+    DEPOSIT("Deposit Transaction"),
+    WITHDRAW("Withdraw Transaction"),
+    BILL_PAYMENT("Bill Payment Transaction");
 
 
     private final String description;
