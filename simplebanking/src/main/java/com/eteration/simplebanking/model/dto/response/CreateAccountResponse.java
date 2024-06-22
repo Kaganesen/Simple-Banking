@@ -23,6 +23,5 @@ public class CreateAccountResponse {
 
     private LocalDateTime createDate;
 
-    private List<Transaction> transaction;
-
+    private List<Transaction> transactions;
 }
