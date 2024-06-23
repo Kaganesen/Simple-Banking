@@ -18,4 +18,6 @@ public class Messages {
     public static final String INSUFFICIENT_BALANCE = "Insufficient balance. Current Balance: ";
     public static final String UNSUPPORTED_TRANSACTION_TYPE = "Unsupported transaction type";
     public static final String TRANSACTION_CANNOT_BE_NULL = "Transaction cannot be null";
+    public static final String ACCOUNT_NUMBER_NOT_BLANK = "Account number must not be blank";
+    public static final String AMOUNT_MUST_BE_POSITIVE = "Amount must be greater than 0";
 }
