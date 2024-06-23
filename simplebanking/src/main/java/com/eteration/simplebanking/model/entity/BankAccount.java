@@ -1,5 +1,7 @@
 package com.eteration.simplebanking.model.entity;
 
+import com.eteration.simplebanking.common.util.messages.Messages;
+import com.eteration.simplebanking.exception.InvalidTransactionException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -40,28 +42,10 @@ public class BankAccount {
         this.transactions = new ArrayList<>();
     }
 
-    public void deposit(double amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Amount must be greater than 0");
-        }
-
-        balance += amount;
-        Transaction transaction = new DepositTransaction(amount);
-        this.transactions.add(transaction);
-    }
-
-    public void withdraw(double amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Amount must be greater than 0");
-        }
-        if (amount > balance) {
-            throw new IllegalArgumentException("Amount must be less than balance");
-        }
-        balance -= amount;
-        this.transactions.add(new WithdrawalTransaction(amount));
-    }
-
     public void post(Transaction transaction) {
+        if (transaction == null) {
+            throw new InvalidTransactionException(Messages.TRANSACTION_CANNOT_BE_NULL);
+        }
         transactions.add(transaction);
         transaction.setBankAccount(this);
     }
