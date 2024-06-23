@@ -85,7 +85,7 @@ financial transactions to manage their accounts.
 | POST   | /api/accounts/create                  | Creates a new account.                      | `CreateAccountRequest` body JSON        | ![Create Account](screenshots/CreateAccount-Postman.png) |
 | POST   | /api/accounts/credit                  | Credits (adds funds to) a specific account. | `CreditRequest` body JSON               | ![Credit](screenshots/Credit-Postman.png)                |
 | POST   | /api/accounts/debit                   | Debits (withdraws funds from) a specific account. | `DebitRequest` body JSON                | ![Debit](screenshots/Debit-Postman.png)                  |
-| POST   | /api/accounts/payment                 | Makes a payment from a specific account.    | `PaymentRequest` body JSON              | ![Payment](screenshots/Payment-Postman.png)              |
+| POST   | /api/accounts/payment                 | Makes a payment from a specific account.    | `PaymentRequest` body JSON              | ![Payment](screenshots/BillPayment-Postman.png)          |
 | GET    | /api/accounts/account/{accountNumber} | Retrieves account details by account number. | `accountNumber` path parameter         | ![Account](screenshots/GetAccount-Postman.png)           |
 | DELETE | /api/accounts/delete/{accountNumber}  | Deletes a specific account.                 | `accountNumber` path parameter         | ![Delete Account](screenshots/DeleteAccount-Postman.png) |
 
