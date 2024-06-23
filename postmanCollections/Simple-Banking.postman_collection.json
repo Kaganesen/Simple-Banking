@@ -97,7 +97,7 @@
 			"response": []
 		},
 		{
-			"name": "Payment",
+			"name": "BillPayment",
 			"request": {
 				"method": "POST",
 				"header": [],
