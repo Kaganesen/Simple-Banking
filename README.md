@@ -68,10 +68,15 @@ financial transactions to manage their accounts.
 
 - Run the following docker command to create an image:
 
-        docker build -t simple-banking-app .
+      docker build -t simple-banking-app .
+
 - To create the jar in the container after creating a Docker image:
 
-        docker run -p 8080:8080 --name simple-banking simple-banking-app
+      docker run -p 8080:8080 --name simple-banking simple-banking-app
+
+  - Alternative:
+
+        docker-compose up -d
 
 - Paste this line into your browser to check that the project is working:
 
