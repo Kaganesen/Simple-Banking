@@ -17,4 +17,5 @@ public class Messages {
     public static final String BANK_ACCOUNT_NOT_FOUND = "Bank account not found";
     public static final String INSUFFICIENT_BALANCE = "Insufficient balance. Current Balance: ";
     public static final String UNSUPPORTED_TRANSACTION_TYPE = "Unsupported transaction type";
+    public static final String TRANSACTION_CANNOT_BE_NULL = "Transaction cannot be null";
 }
