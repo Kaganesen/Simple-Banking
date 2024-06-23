@@ -1,80 +1,70 @@
 package com.eteration.simplebanking;
 
 
-import com.eteration.simplebanking.model.entity.BankAccount;
-import com.eteration.simplebanking.model.entity.DepositTransaction;
-import com.eteration.simplebanking.model.entity.Transaction;
-import com.eteration.simplebanking.model.entity.WithdrawalTransaction;
-import com.eteration.simplebanking.repository.TransactionRepository;
+import com.eteration.simplebanking.exception.InvalidTransactionException;
+import com.eteration.simplebanking.model.entity.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BankAccountTest {
 
-    @Mock
-    private TransactionRepository transactionRepository;
-
-    @InjectMocks
     private BankAccount bankAccount;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        bankAccount = new BankAccount("12345", "Kagan Esen");
-        bankAccount.setBalance(1000.0);
-        bankAccount.setTransactions(new ArrayList<>());
+        bankAccount = new BankAccount("123", "Kagan Esen");
     }
 
     @Test
-    public void testCreateAccountAndInitialBalance() {
-        assertEquals("12345", bankAccount.getAccountNumber());
-        assertEquals("Kagan Esen", bankAccount.getOwner());
-        assertEquals(1000, bankAccount.getBalance());
-        assertTrue(bankAccount.getTransactions().isEmpty());
-    }
+    void post_ShouldAddTransactionToBankAccount() {
+        Transaction transaction = new DepositTransaction(100.0);
 
+        bankAccount.post(transaction);
 
-    @Test
-    public void deposit_ValidAmount_ShouldIncreaseBalanceAndAddTransaction() {
-        double amount = 500.0;
-
-        bankAccount.deposit(amount);
-
-        assertEquals(1500.0, bankAccount.getBalance());
         assertEquals(1, bankAccount.getTransactions().size());
-        Transaction transaction = bankAccount.getTransactions().get(0);
-        assertTrue(transaction instanceof DepositTransaction);
-        assertEquals(amount, transaction.getAmount());
-
-        // Verify that transactionRepository.save was called once with any DepositTransaction
-        verify(transactionRepository, times(1)).save(any(DepositTransaction.class));
+        assertTrue(bankAccount.getTransactions().contains(transaction));
+        assertEquals(bankAccount, transaction.getBankAccount());
     }
-
 
     @Test
-    public void withdraw_ValidAmount_ShouldDecreaseBalanceAndAddTransaction() {
-        double amount = 500.0;
+    void post_ShouldSetTransactionDateToCurrentDate() {
+        Transaction transaction = new WithdrawalTransaction(50.0);
 
-        bankAccount.withdraw(amount);
+        bankAccount.post(transaction);
 
-        assertEquals(500.0, bankAccount.getBalance());
-        assertEquals(1, bankAccount.getTransactions().size());
-        assertTrue(bankAccount.getTransactions().get(0) instanceof WithdrawalTransaction);
-        assertEquals(amount, bankAccount.getTransactions().get(0).getAmount());
-
-        // Verify that transactionRepository.save was called once with any WithdrawalTransaction
-        verify(transactionRepository, times(1)).save(any(WithdrawalTransaction.class));
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        assertTrue(transaction.getDate().isBefore(currentDateTime.plusSeconds(1)));
+        assertTrue(transaction.getDate().isAfter(currentDateTime.minusSeconds(1)));
     }
+
+    @Test
+    void post_ShouldThrowException_WhenTransactionIsNull() {
+        Transaction transaction = null;
+
+        assertThrows(InvalidTransactionException.class, () -> bankAccount.post(transaction));
+    }
+
+    @Test
+    void post_ShouldAddMultipleTransactionsInOrder() {
+        Transaction depositTransaction = new DepositTransaction(200.0);
+        Transaction withdrawalTransaction = new WithdrawalTransaction(100.0);
+        Transaction billPaymentTransaction = new BillPaymentTransaction(300.0);
+
+        bankAccount.post(depositTransaction);
+        bankAccount.post(withdrawalTransaction);
+        bankAccount.post(billPaymentTransaction);
+
+        assertEquals(3, bankAccount.getTransactions().size());
+        assertEquals(depositTransaction, bankAccount.getTransactions().get(0));
+        assertEquals(withdrawalTransaction, bankAccount.getTransactions().get(1));
+        assertEquals(billPaymentTransaction, bankAccount.getTransactions().get(2));
+    }
+
 
 }

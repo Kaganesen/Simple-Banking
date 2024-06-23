@@ -1,7 +1,6 @@
 package com.eteration.simplebanking.services.impl;
 
 import com.eteration.simplebanking.common.util.mapper.AccountMapper;
-
 import com.eteration.simplebanking.common.util.messages.Messages;
 import com.eteration.simplebanking.common.util.result.DataResult;
 import com.eteration.simplebanking.common.util.result.Result;
@@ -41,6 +40,7 @@ class BankAccountServiceImplTest {
 
     @Mock
     private AccountMapper accountMapper;
+
 
     @BeforeEach
     void setUp() {

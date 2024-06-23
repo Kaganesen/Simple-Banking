@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-
 class BankAccountControllerTest {
 
     @Mock
@@ -38,15 +39,16 @@ class BankAccountControllerTest {
     }
 
     @Test
-    void createAccount() {
+    void testCreateAccount() {
+        String ownerName = "Kagan";
         CreateAccountRequest request = new CreateAccountRequest();
-        request.setOwner("Kagan");
+        request.setOwner(ownerName);
 
         LocalDateTime now = LocalDateTime.now();
 
         CreateAccountResponse expectedResponse = new CreateAccountResponse();
         expectedResponse.setAccountNumber("123");
-        expectedResponse.setOwner("Kagan");
+        expectedResponse.setOwner(ownerName);
         expectedResponse.setCreateDate(now);
 
         DataResult<CreateAccountResponse> expectedResult = new DataResult<>(expectedResponse, true, Messages.ACCOUNT_CREATED_SUCCESSFULLY);
@@ -55,70 +57,78 @@ class BankAccountControllerTest {
 
         DataResult<CreateAccountResponse> actualResult = bankAccountController.createAccount(request);
 
-           assertTrue(actualResult.isSuccess());
-        assertEquals(expectedResult.getData().getAccountNumber(), actualResult.getData().getAccountNumber());
-        assertEquals(expectedResult.getData().getOwner(), actualResult.getData().getOwner());
-        assertEquals(expectedResult.getData().getCreateDate(), actualResult.getData().getCreateDate());
+        assertTrue(actualResult.isSuccess());
+
+        CreateAccountResponse actualResponse = actualResult.getData();
+        assertEquals(expectedResponse.getAccountNumber(), actualResponse.getAccountNumber());
+        assertEquals(expectedResponse.getOwner(), actualResponse.getOwner());
+        assertEquals(expectedResponse.getCreateDate(), actualResponse.getCreateDate());
 
         assertEquals(Messages.ACCOUNT_CREATED_SUCCESSFULLY, actualResult.getMessage());
     }
 
     @Test
-    void credit() {
-
+    void testCredit() {
         CreditRequest request = new CreditRequest();
-        CreditResponse response = new CreditResponse();
-        DataResult<CreditResponse> result = new DataResult<>(response, true, Messages.CREDIT_SUCCESSFULLY);
+        CreditResponse expectedResponse = new CreditResponse();
+        DataResult<CreditResponse> expectedResult = new DataResult<>(expectedResponse, true, Messages.CREDIT_SUCCESSFULLY);
 
-        when(bankAccountService.credit(any(CreditRequest.class))).thenReturn(result);
+        when(bankAccountService.credit(any(CreditRequest.class))).thenReturn(expectedResult);
+
         DataResult<CreditResponse> actualResult = bankAccountController.credit(request);
 
-        assertEquals(result, actualResult);
+        assertEquals(expectedResult, actualResult);
     }
 
     @Test
-    void debit() {
-        DebitResponse createDebitResponse = new DebitResponse();
-        DebitRequest createDebitRequest = new DebitRequest();
-        DataResult<DebitResponse> result = new DataResult<>(createDebitResponse, true, Messages.DEBIT_SUCCESSFULLY);
+    void testDebit() {
+        DebitRequest request = new DebitRequest();
+        DebitResponse expectedResponse = new DebitResponse(); // Örnek bir DebitResponse oluşturabilirsiniz.
+        DataResult<DebitResponse> expectedResult = new DataResult<>(expectedResponse, true, Messages.DEBIT_SUCCESSFULLY);
 
-        when(bankAccountService.debit(createDebitRequest)).thenReturn(result);
-        DataResult<DebitResponse> actualResult = bankAccountController.debit(createDebitRequest);
+        when(bankAccountService.debit(request)).thenReturn(expectedResult);
 
-        assertEquals(result, actualResult);
+        DataResult<DebitResponse> actualResult = bankAccountController.debit(request);
+
+        assertEquals(expectedResult, actualResult);
     }
 
     @Test
-    void payment() {
-        PaymentResponse createPaymentResponse = new PaymentResponse();
-        PaymentRequest createPaymentRequest = new PaymentRequest();
-        DataResult<PaymentResponse> result = new DataResult<>(createPaymentResponse, true, Messages.PAYMENT_SUCCESSFULLY);
+    void testPayment() {
+        PaymentRequest request = new PaymentRequest();
+        PaymentResponse expectedResponse = new PaymentResponse();
+        DataResult<PaymentResponse> expectedResult = new DataResult<>(expectedResponse, true, Messages.PAYMENT_SUCCESSFULLY);
 
-        when(bankAccountService.payment(createPaymentRequest)).thenReturn(result);
-        DataResult<PaymentResponse> actualResult = bankAccountController.payment(createPaymentRequest);
+        when(bankAccountService.payment(request)).thenReturn(expectedResult);
 
-        assertEquals(result, actualResult);
+        DataResult<PaymentResponse> actualResult = bankAccountController.payment(request);
+
+        assertEquals(expectedResult, actualResult);
     }
 
     @Test
-    void getByAccountNumber() {
-        AccountDto accountDto = new AccountDto();
-        DataResult<AccountDto> result = new DataResult<>(accountDto, true, Messages.ACCOUNT_FOUND);
+    void testGetByAccountNumber() {
+        String accountNumber = "123";
+        AccountDto expectedDto = new AccountDto();
+        DataResult<AccountDto> expectedResult = new DataResult<>(expectedDto, true, Messages.ACCOUNT_FOUND);
 
-        when(bankAccountService.getByAccountNumber(anyString())).thenReturn(result);
-        DataResult<AccountDto> actualResult = bankAccountController.getByAccountNumber(anyString());
+        when(bankAccountService.getByAccountNumber(anyString())).thenReturn(expectedResult);
 
-        assertEquals(result, actualResult);
+        DataResult<AccountDto> actualResult = bankAccountController.getByAccountNumber(accountNumber);
+
+        assertEquals(expectedResult, actualResult);
     }
 
     @Test
-    void deleteAccount() {
-        Result result = new Result(true);
+    void testDeleteAccount() {
+        String accountNumber = "123";
+        Result expectedResult = new Result(true);
 
-        when(bankAccountService.deleteAccount(anyString())).thenReturn(result);
-        Result actualResult = bankAccountController.deleteAccount(anyString());
+        when(bankAccountService.deleteAccount(anyString())).thenReturn(expectedResult);
 
-        assertEquals(result, actualResult);
+        Result actualResult = bankAccountController.deleteAccount(accountNumber);
+
+        assertEquals(expectedResult, actualResult);
     }
 
 }
