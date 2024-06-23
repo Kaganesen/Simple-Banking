@@ -80,14 +80,14 @@ financial transactions to manage their accounts.
 ## API ENDPOINTS
 
 
-| Method | Endpoint                       | Description                                 | Input Parameters                        |
-|--------|--------------------------------|---------------------------------------------|-----------------------------------------|
-| POST   | /api/accounts/create           | Creates a new account.                      | `CreateAccountRequest` body JSON        |
-| POST   | /api/accounts/credit           | Credits (adds funds to) a specific account. | `CreditRequest` body JSON               |
-| POST   | /api/accounts/debit            | Debits (withdraws funds from) a specific account. | `DebitRequest` body JSON                |
-| POST   | /api/accounts/payment          | Makes a payment from a specific account.    | `PaymentRequest` body JSON              |
-| GET    | /api/accounts/account/{accountNumber} | Retrieves account details by account number. | `accountNumber` path parameter         |
-| DELETE | /api/accounts/account/{accountNumber} | Deletes a specific account.                 | `accountNumber` path parameter         |
+| Method | Endpoint                       | Description                                 | Input Parameters                        | Postman Screenshot |
+|--------|--------------------------------|---------------------------------------------|-----------------------------------------|--------------------|
+| POST   | /api/accounts/create           | Creates a new account.                      | `CreateAccountRequest` body JSON        |     ![Create Account](screenshots/createAccount-Postman.png)               |
+| POST   | /api/accounts/credit           | Credits (adds funds to) a specific account. | `CreditRequest` body JSON               |                    |
+| POST   | /api/accounts/debit            | Debits (withdraws funds from) a specific account. | `DebitRequest` body JSON                |                    |
+| POST   | /api/accounts/payment          | Makes a payment from a specific account.    | `PaymentRequest` body JSON              |                    |
+| GET    | /api/accounts/account/{accountNumber} | Retrieves account details by account number. | `accountNumber` path parameter         |                    |
+| DELETE | /api/accounts/account/{accountNumber} | Deletes a specific account.                 | `accountNumber` path parameter         |                    |
 
 
 
