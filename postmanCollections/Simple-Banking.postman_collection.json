@@ -154,7 +154,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/accounts/account/444",
+					"raw": "http://localhost:8080/api/accounts/delete/202406231329114207395",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -163,8 +163,8 @@
 					"path": [
 						"api",
 						"accounts",
-						"account",
-						"444"
+						"delete",
+						"202406231329114207395"
 					]
 				}
 			},
