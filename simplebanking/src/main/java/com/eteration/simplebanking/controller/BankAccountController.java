@@ -48,7 +48,7 @@ public class BankAccountController {
         return bankAccountService.getByAccountNumber(accountNumber);
     }
 
-    @DeleteMapping("/account/{accountNumber}")
+    @DeleteMapping("/delete/{accountNumber}")
     public Result deleteAccount(@PathVariable String accountNumber) {
         return bankAccountService.deleteAccount(accountNumber);
     }
