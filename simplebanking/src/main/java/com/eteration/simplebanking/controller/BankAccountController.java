@@ -9,7 +9,6 @@ import com.eteration.simplebanking.model.dto.request.PaymentRequest;
 import com.eteration.simplebanking.model.dto.response.*;
 import com.eteration.simplebanking.services.BankAccountService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -50,10 +49,9 @@ public class BankAccountController {
     }
 
     @DeleteMapping("/account/{accountNumber}")
-    public Result deleteAccount (@PathVariable String accountNumber) {
+    public Result deleteAccount(@PathVariable String accountNumber) {
         return bankAccountService.deleteAccount(accountNumber);
     }
-
 
 
 }

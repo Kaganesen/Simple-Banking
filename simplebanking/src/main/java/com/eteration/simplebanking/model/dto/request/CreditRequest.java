@@ -1,13 +1,14 @@
 package com.eteration.simplebanking.model.dto.request;
 
+import com.eteration.simplebanking.common.util.messages.Messages;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 
 @Getter
@@ -16,10 +17,10 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class CreditRequest {
 
-    @NotBlank
+    @NotBlank(message = Messages.ACCOUNT_NUMBER_NOT_BLANK)
     private String accountNumber;
 
     @NotNull
-    @DecimalMin(value = "0.0", inclusive = false , message = "Amount must be greater than 0")
+    @Positive(message = Messages.AMOUNT_MUST_BE_POSITIVE)
     private Double amount;
 }
