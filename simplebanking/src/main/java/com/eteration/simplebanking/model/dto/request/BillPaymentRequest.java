@@ -13,7 +13,7 @@ import javax.validation.constraints.Positive;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentRequest {
+public class BillPaymentRequest {
 
     @NotBlank(message = Messages.ACCOUNT_NUMBER_NOT_BLANK)
     private String accountNumber;

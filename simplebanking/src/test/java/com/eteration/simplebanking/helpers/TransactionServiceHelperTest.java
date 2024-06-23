@@ -46,7 +46,7 @@ class TransactionServiceHelperTest {
     }
 
     @Test
-    void processTransaction_ShouldCreateAndSaveBillPaymentTransaction() {
+    void processTransaction_ShouldCreateAndSaveBillBillPaymentTransaction() {
         testTransactionProcessing(TransactionType.BILL_PAYMENT);
     }
 

@@ -63,7 +63,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void payment() {
+    void billPayment() {
         BankAccount bankAccount = new BankAccount();
         double amount = 2000.0;
         BillPaymentTransaction expectedTransaction = new BillPaymentTransaction(amount);
@@ -71,7 +71,7 @@ class TransactionServiceImplTest {
         when(transactionServiceHelper.processTransaction(any(BankAccount.class), eq(amount), eq(TransactionType.BILL_PAYMENT)))
                 .thenReturn(expectedTransaction);
 
-        Transaction result = transactionServiceImpl.payment(bankAccount, amount);
+        Transaction result = transactionServiceImpl.billPayment(bankAccount, amount);
 
         assertNotNull(result);
         assertEquals(expectedTransaction, result);

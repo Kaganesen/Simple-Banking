@@ -28,7 +28,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction payment(BankAccount bankAccount, double amount) {
+    public Transaction billPayment(BankAccount bankAccount, double amount) {
         return transactionServiceHelper.processTransaction(bankAccount, amount, TransactionType.BILL_PAYMENT);
     }
 

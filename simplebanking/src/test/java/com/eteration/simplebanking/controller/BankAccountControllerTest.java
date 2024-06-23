@@ -6,7 +6,7 @@ import com.eteration.simplebanking.common.util.result.Result;
 import com.eteration.simplebanking.model.dto.request.CreateAccountRequest;
 import com.eteration.simplebanking.model.dto.request.CreditRequest;
 import com.eteration.simplebanking.model.dto.request.DebitRequest;
-import com.eteration.simplebanking.model.dto.request.PaymentRequest;
+import com.eteration.simplebanking.model.dto.request.BillPaymentRequest;
 import com.eteration.simplebanking.model.dto.response.*;
 import com.eteration.simplebanking.services.BankAccountService;
 import org.junit.jupiter.api.BeforeEach;
@@ -94,13 +94,13 @@ class BankAccountControllerTest {
 
     @Test
     void testPayment() {
-        PaymentRequest request = new PaymentRequest();
+        BillPaymentRequest request = new BillPaymentRequest();
         PaymentResponse expectedResponse = new PaymentResponse();
         DataResult<PaymentResponse> expectedResult = new DataResult<>(expectedResponse, true, Messages.PAYMENT_SUCCESSFULLY);
 
-        when(bankAccountService.payment(request)).thenReturn(expectedResult);
+        when(bankAccountService.billPayment(request)).thenReturn(expectedResult);
 
-        DataResult<PaymentResponse> actualResult = bankAccountController.payment(request);
+        DataResult<PaymentResponse> actualResult = bankAccountController.billPayment(request);
 
         assertEquals(expectedResult, actualResult);
     }

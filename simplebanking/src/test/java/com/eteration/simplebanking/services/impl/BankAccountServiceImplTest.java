@@ -8,7 +8,7 @@ import com.eteration.simplebanking.exception.BankAccountNotFoundException;
 import com.eteration.simplebanking.model.dto.request.CreateAccountRequest;
 import com.eteration.simplebanking.model.dto.request.CreditRequest;
 import com.eteration.simplebanking.model.dto.request.DebitRequest;
-import com.eteration.simplebanking.model.dto.request.PaymentRequest;
+import com.eteration.simplebanking.model.dto.request.BillPaymentRequest;
 import com.eteration.simplebanking.model.dto.response.*;
 import com.eteration.simplebanking.model.entity.*;
 import com.eteration.simplebanking.repository.BankAccountRepository;
@@ -120,9 +120,9 @@ class BankAccountServiceImplTest {
     }
 
     @Test
-    public void testPayment() {
+    public void testBillPayment() {
         double amount = 25.30;
-        PaymentRequest paymentRequest = new PaymentRequest("1111", amount);
+        BillPaymentRequest billPaymentRequest = new BillPaymentRequest("1111", amount);
         BankAccount bankAccount = new BankAccount();
         bankAccount.setAccountNumber("123456");
         bankAccount.setBalance(75.0);
@@ -133,10 +133,10 @@ class BankAccountServiceImplTest {
         PaymentResponse paymentResponse = new PaymentResponse();
 
         when(bankAccountRepository.findByAccountNumber("1111")).thenReturn(Optional.of(bankAccount));
-        when(transactionService.payment(bankAccount, amount)).thenReturn(transaction);
+        when(transactionService.billPayment(bankAccount, amount)).thenReturn(transaction);
         when(accountMapper.createBankAccountToCreatePaymentResponse(bankAccount)).thenReturn(paymentResponse);
 
-        DataResult<PaymentResponse> result = bankAccountServiceImpl.payment(paymentRequest);
+        DataResult<PaymentResponse> result = bankAccountServiceImpl.billPayment(billPaymentRequest);
 
         assertNotNull(result);
         assertTrue(result.isSuccess());

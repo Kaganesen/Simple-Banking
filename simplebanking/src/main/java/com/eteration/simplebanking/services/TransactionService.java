@@ -9,5 +9,5 @@ public interface TransactionService {
 
     Transaction withdraw(BankAccount bankAccount, double amount);
 
-    Transaction payment(BankAccount bankAccount, double amount);
+    Transaction billPayment(BankAccount bankAccount, double amount);
 }

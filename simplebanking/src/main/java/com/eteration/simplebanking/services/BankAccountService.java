@@ -5,7 +5,7 @@ import com.eteration.simplebanking.common.util.result.Result;
 import com.eteration.simplebanking.model.dto.request.CreateAccountRequest;
 import com.eteration.simplebanking.model.dto.request.CreditRequest;
 import com.eteration.simplebanking.model.dto.request.DebitRequest;
-import com.eteration.simplebanking.model.dto.request.PaymentRequest;
+import com.eteration.simplebanking.model.dto.request.BillPaymentRequest;
 import com.eteration.simplebanking.model.dto.response.*;
 
 
@@ -17,7 +17,7 @@ public interface BankAccountService {
 
     DataResult<DebitResponse> debit (DebitRequest debitRequest);
 
-    DataResult<PaymentResponse> payment (PaymentRequest paymentRequest);
+    DataResult<PaymentResponse> billPayment(BillPaymentRequest billPaymentRequest);
 
     DataResult<AccountDto> getByAccountNumber(String accountNumber);
 

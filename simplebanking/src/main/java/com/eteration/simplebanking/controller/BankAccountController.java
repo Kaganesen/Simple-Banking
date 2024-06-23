@@ -5,7 +5,7 @@ import com.eteration.simplebanking.common.util.result.Result;
 import com.eteration.simplebanking.model.dto.request.CreateAccountRequest;
 import com.eteration.simplebanking.model.dto.request.CreditRequest;
 import com.eteration.simplebanking.model.dto.request.DebitRequest;
-import com.eteration.simplebanking.model.dto.request.PaymentRequest;
+import com.eteration.simplebanking.model.dto.request.BillPaymentRequest;
 import com.eteration.simplebanking.model.dto.response.*;
 import com.eteration.simplebanking.services.BankAccountService;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +38,9 @@ public class BankAccountController {
         return bankAccountService.debit(debitRequest);
     }
 
-    @PostMapping("/payment")
-    public DataResult<PaymentResponse> payment(@RequestBody @Valid PaymentRequest paymentRequest) {
-        return bankAccountService.payment(paymentRequest);
+    @PostMapping("/bill-payment")
+    public DataResult<PaymentResponse> billPayment(@RequestBody @Valid BillPaymentRequest billPaymentRequest) {
+        return bankAccountService.billPayment(billPaymentRequest);
     }
 
     @GetMapping("/account/{accountNumber}")

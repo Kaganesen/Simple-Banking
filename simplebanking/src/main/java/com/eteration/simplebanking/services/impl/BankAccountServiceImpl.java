@@ -12,7 +12,7 @@ import com.eteration.simplebanking.exception.InsufficientBalanceException;
 import com.eteration.simplebanking.model.dto.request.CreateAccountRequest;
 import com.eteration.simplebanking.model.dto.request.CreditRequest;
 import com.eteration.simplebanking.model.dto.request.DebitRequest;
-import com.eteration.simplebanking.model.dto.request.PaymentRequest;
+import com.eteration.simplebanking.model.dto.request.BillPaymentRequest;
 import com.eteration.simplebanking.model.dto.response.*;
 import com.eteration.simplebanking.model.entity.BankAccount;
 import com.eteration.simplebanking.model.entity.Transaction;
@@ -93,9 +93,9 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     @Transactional
-    public DataResult<PaymentResponse> payment(PaymentRequest paymentRequest) {
-        BankAccount bankAccount = getBankAccount(paymentRequest.getAccountNumber());
-        double requestAmount = paymentRequest.getAmount();
+    public DataResult<PaymentResponse> billPayment(BillPaymentRequest billPaymentRequest) {
+        BankAccount bankAccount = getBankAccount(billPaymentRequest.getAccountNumber());
+        double requestAmount = billPaymentRequest.getAmount();
         double currentBalance = bankAccount.getBalance();
 
         checkSufficientBalance(bankAccount, requestAmount);
@@ -105,7 +105,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         bankAccount.setBalance(updatedBalance);
         bankAccountRepository.save(bankAccount);
 
-        Transaction transaction = transactionService.payment(bankAccount, paymentRequest.getAmount());
+        Transaction transaction = transactionService.billPayment(bankAccount, billPaymentRequest.getAmount());
 
         PaymentResponse paymentResponse = accountMapper.createBankAccountToCreatePaymentResponse(bankAccount);
         paymentResponse.setApprovalCode(transaction.getApprovalCode());
