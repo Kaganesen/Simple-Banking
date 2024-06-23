@@ -55,14 +55,26 @@ The Bank App is a web application that allows customers to manage their bank acc
 
 
 
-## Task 1: Implement and test the model
-These transaction objects will be used both to make financial requests of a BankAccount and to keep a record of those requests. The following Unit test segment indicates how transactions will be used on the service side:
+## How To Run
+- Download the project via git:
 
-    BankAccount account = new BankAccount("Jim", 12345);
-    account.post(new DepositTransaction(1000));
-    account.post(new WithdrawalTransaction(200));
-    account.post(new PhoneBillPaymentTransaction("Vodafone", "5423345566", 96.50));
-    assertEquals(account.getBalance(), 703.50, 0.0001)
+      git clone https://github.com/Kaganesen/Simple-Banking.git
+  
+-  To compile and package your project using Gradle, open a terminal in the following directory and copy the following code:
+
+       ./gradlew clean build
+
+- Run the following docker command to create an image:
+
+        docker build -t simple-banking-app .
+- To create the jar in the container after creating a Docker image:
+
+        docker run -p 8080:8080 --name simple-banking simple-banking-app
+  
+- Paste this line into your browser to check that the project is working:
+
+        http://localhost:8080/swagger-ui/index.html#/
+   
 
 ### BONUS Task 1: Find a better implementation alternative
 The bank account post method must do something special for each Transaction type. e.g. post(DepositTransaction) and post(WithdrawalTransaction. This solution will work but creating families of overloaded methods is discouraged as it causes problems with maintenance. Consider, if we added more Transaction subclasses we would need to keep changing the BankAccount class, overloading even more post methods. It is considered bad form in OO  to write case statements based on the type of objects. It also has the same maintenance problems as the first solution. Adding more Transaction subclasses would require changes. Find a solution to delegate the operation using polymorphism so that the Bank account is never changed by introducing new transaction types. At a öinimum you shoudl make the provided uni test to run:
